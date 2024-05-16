@@ -12,7 +12,7 @@ playground: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -rf playground tmp*
-	find * -type f '(' -name '*~' -o -name '*.o' ')' -exec rm {} ';'
+	rm -rf playground
+	find * -type f '(' -name '*~' -o -name '*.o' ')' | xargs rm
 
 .PHONY: clean

@@ -16,6 +16,12 @@
 #define DEFAULT_PORT 5000
 #define BUF_LENGTH 256
 
+#ifdef DEBUG
+#  define DEBUG_PRINT(x) printf x
+#else
+#  define DEBUG_PRINT(x) do {} while (0)
+#endif
+
 int main(int argc, char **argv) {
     int opt;
     int port;
@@ -92,14 +98,14 @@ int main(int argc, char **argv) {
    EV_SET(&kev[0], listening_socket, EVFILT_READ, EV_ADD, 0, 0, NULL);
 
    socklen_t socklen;
-   char buf[BUF_LENGTH];
-   int num_registered = 1;
    struct sockaddr_in peer_sin;
+   int num_registered = 1;
+   char buf[BUF_LENGTH];
 
    while (1) {
      int n = kevent(kq, kev, num_registered, kev, sizeof(kev) / sizeof(kev[0]), NULL);
      num_registered = 0;
-     for (int i = 0 ; i < n ; i++) {
+     for (int i = 0; i < n; i++) {
        int sock = kev[i].ident;
        if (sock == listening_socket) {
 	 int new_sock = accept(sock, (struct sockaddr *)&peer_sin, &socklen);

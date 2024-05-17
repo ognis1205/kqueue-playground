@@ -32,6 +32,6 @@ int main(int argc, char **argv) {
       }
     }
 
-   port = num_events > 0 ? port : PORT;
+   port = port >= 1024 && port <= 49151 ? port : PORT;
    num_events = num_events > 0 ? num_events : DEFAULT_NUM_EVENTS;
 }

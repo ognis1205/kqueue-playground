@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
 	 sizeof(socket_option_value)
 	 ) == -1 ) {
      perror("setsockopt");
-     exit(1);
+     exit(EXIT_FAILURE);
    }
 
    sin.sin_family = AF_INET;
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 	 sizeof(sin)
 	 ) == -1) {
      perror("bind");
-     exit(1);
+     exit(EXIT_FAILURE);
    }
 
    // listen(2):
@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 	 SOMAXCONN
 	 ) == -1) {
      perror("listen");
-     exit(1);
+     exit(EXIT_FAILURE);
    }
 
    int kq;
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
    // https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/kqueue.2.html
    if ((kq = kqueue()) == -1) {
      perror("kqueue");
-     exit(1);
+     exit(EXIT_FAILURE);
    }
    EV_SET(&kev[0], listening_socket, EVFILT_READ, EV_ADD, 0, 0, NULL);
 
@@ -120,4 +120,5 @@ int main(int argc, char **argv) {
        }
      }
    }
+   exit(EXIT_SUCCESS);
 }

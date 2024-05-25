@@ -97,10 +97,14 @@ int main(int argc, char **argv) {
    }
    EV_SET(&kev[0], listening_socket, EVFILT_READ, EV_ADD, 0, 0, NULL);
 
+   char ip[INET_ADDRSTRLEN];
    socklen_t socklen;
    struct sockaddr_in peer_sin;
    int num_registered = 1;
    char buf[BUF_LENGTH];
+
+   inet_ntop(AF_INET, &sin.sin_addr, ip, sizeof(ip));
+   printf("server listening on: %s:%d\n", ip, htons(sin.sin_port));
 
    while (1) {
      int n = kevent(kq, kev, num_registered, kev, sizeof(kev) / sizeof(kev[0]), NULL);
